@@ -48,16 +48,16 @@ fm = FastMail(conf)
 
 # CREATING THE EMAIL ENDPOINTS
 @email_app.post("/sendMail/", tags=["Email Service"])
-async def send_mail(email: RegisterEmailUsers, background_tasks: BackgroundTasks, db: Session = Depends(get_db)) :
+async def send_mail(email: RegisterEmailUsers, db: Session = Depends(get_db)) :
                message = MessageSchema(
                               subject=email.subject,
                               recipients=[conf.MAIL_FROM],
                               body=f"Message from: {email.email}\n\n{email.body}",
                               subtype="plain"
                )
-               background_tasks.add_task(fm.send_message, message)
+               await fm.send_message(message)
                new_email_user = Email_Users(email=email.email, subject=email.subject, body=email.body)
                db.add(new_email_user)
                db.commit()
                db.refresh(new_email_user)
-               return {"message": "Email has been sent in the background", "email_user": new_email_user}
+               return {"message": "Email has been sent", "email_user": new_email_user}
