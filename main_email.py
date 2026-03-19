@@ -7,10 +7,10 @@ load_dotenv(dotenv_path)
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig # type: ignore
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
-from .schemas import RegisterEmailUsers
+from schemas import RegisterEmailUsers
 from sqlalchemy.orm import Session
-from .database_connect import email_session_local, email_engine, email_base
-from .table import Email_Users
+from database_connect import email_session_local, email_engine, email_base
+from table import Email_Users
 
 email_app = FastAPI()
 email_base.metadata.create_all(bind=email_engine)

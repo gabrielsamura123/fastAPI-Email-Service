@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer
-from .database_connect import email_base
+from database_connect import email_base
 
 class Email_Users (email_base) :
                __tablename__="email_users"
