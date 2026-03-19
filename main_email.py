@@ -55,9 +55,12 @@ async def send_mail(email: RegisterEmailUsers, db: Session = Depends(get_db)) :
                               body=f"Message from: {email.email}\n\n{email.body}",
                               subtype="plain"
                )
-               await fm.send_message(message)
-               new_email_user = Email_Users(email=email.email, subject=email.subject, body=email.body)
-               db.add(new_email_user)
-               db.commit()
-               db.refresh(new_email_user)
-               return {"message": "Email has been sent", "email_user": new_email_user}
+               try:
+                              await fm.send_message(message)
+                              new_email_user = Email_Users(email=email.email, subject=email.subject, body=email.body)
+                              db.add(new_email_user)
+                              db.commit()
+                              db.refresh(new_email_user)
+                              return {"message": "Email has been sent", "email_user": new_email_user}
+               except Exception as e:
+                              raise HTTPException(status_code=500, detail=f"Failed to send email: {str(e)}")
