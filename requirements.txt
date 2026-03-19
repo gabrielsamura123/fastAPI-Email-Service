@@ -1,0 +1,7 @@
+fastapi
+fastapi-mail
+pydantic[email]
+sqlalchemy
+psycopg2-binary
+uvicorn
+python-dotenv
