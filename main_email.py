@@ -47,6 +47,11 @@ conf = ConnectionConfig(
 fm = FastMail(conf)
 
 # CREATING THE EMAIL ENDPOINTS
+
+@email_app.get("/", tags=["Email Service"])
+async def root():
+               return {"message": "Welcome to the Email Service API!"}
+
 @email_app.post("/sendMail/", tags=["Email Service"])
 async def send_mail(email: RegisterEmailUsers, db: Session = Depends(get_db)) :
                message = MessageSchema(
